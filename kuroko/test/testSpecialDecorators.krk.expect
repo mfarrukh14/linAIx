@@ -1,0 +1,13 @@
+No args!
+42
+48
+Called as a setter: [102]
+102
+<class '__main__.Foo'> test
+<class '__main__.Foo'> test
+<class '__main__.Bar'> test
+I am a Python-style @property!
+42
+I am a Python-style @property's setter called with 51966
+I am a Python-style @property!
+51966

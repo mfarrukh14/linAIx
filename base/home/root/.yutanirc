@@ -1,0 +1,12 @@
+#!/bin/esh
+
+# Start wallpaper
+cd ~/Desktop
+file-browser --wallpaper &
+cd ~
+
+# Start toast daemon
+toastd --really
+
+# Replace us with the panel
+exec panel --really

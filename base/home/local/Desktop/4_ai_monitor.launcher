@@ -1,0 +1,3 @@
+icon=utilities-system-monitor
+run=exec ai-monitor
+title=AI Neural Monitor

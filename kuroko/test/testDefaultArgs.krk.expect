@@ -1,0 +1,15 @@
+You like bacon right?
+True
+You like sports right?
+1 True c None 2.71828
+one 2 test None <class 'object'>
+l= []
+l*= [1]
+l= []
+l*= [1]
+l= [1, 2, 3]
+l*= [1, 2, 3, 1]
+l= [1, 2, 3]
+l*= [1, 2, 3, 1]
+l= []
+l*= [1]
