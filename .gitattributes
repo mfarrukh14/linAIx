@@ -1,0 +1,13 @@
+# Force LF line endings for all text files
+* text=auto eol=lf
+
+# Binary files
+*.png binary
+*.jpg binary
+*.bmp binary
+*.ttf binary
+*.gz binary
+*.igz binary
+*.so binary
+*.svg binary
+*.ico binary

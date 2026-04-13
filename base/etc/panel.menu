@@ -26,3 +26,4 @@ exec mines.krk,mines,Mines
 exec gsudo package-manager,package,Package Manager
 exec wallpaper-picker,wallpaper-picker,Select Wallpaper
 exec cpuwidget,system-monitor,System Monitor
+exec ai-monitor,utilities-system-monitor,AI Neural Monitor

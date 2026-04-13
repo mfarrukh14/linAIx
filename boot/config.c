@@ -38,7 +38,7 @@ char * LINK_TEXT = "https://linAIxos.org - https://github.com/klange/linAIxos";
 
 /* Boot command line strings */
 #define DEFAULT_ROOT_CMDLINE "root=/dev/ram0 "
-#define DEFAULT_GRAPHICAL_CMDLINE "start=live-session "
+#define DEFAULT_GRAPHICAL_CMDLINE "start=glogin "
 #define DEFAULT_SINGLE_CMDLINE "start=\"terminal -F\" "
 #define DEFAULT_TEXT_CMDLINE "start=--vga vid=text "
 #define DEFAULT_VID_CMDLINE "vid=auto "

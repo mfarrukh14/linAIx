@@ -1,1 +1,2 @@
 #LinAIx
+bash -c 'export DISPLAY=:0; qemu-system-x86_64 -M q35 -m 1G -smp 2 -no-reboot -device AC97 -kernel misaka-kernel -initrd ramdisk.igz -append "root=/dev/ram0 migrate start=live-session vid=auto" -name "linAIxOS" -display gtk 2>&1 &'

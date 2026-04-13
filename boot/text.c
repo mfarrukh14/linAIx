@@ -297,7 +297,7 @@ static void draw_square(int x, int y, int stage) {
 		unsigned int color = 0xFF000000 | (color_green << 8) | color_blue;
 
 		for (int _x = 0; _x < 7; ++_x) {
-			set_point(center_x - 32 - offset_x + x * 8 + _x, center_y - 32 - offset_y + y * 8 + _y, color);
+			set_point(center_x - 130 - offset_x + x * 8 + _x, center_y - 28 - offset_y + y * 8 + _y, color);
 		}
 	}
 }
@@ -311,13 +311,70 @@ void draw_logo(int stage) {
 		print_(tmp);
 		return;
 	}
-	uint64_t logo_squares = 0x981818181818FFFFUL;
-	for (int y = 0; y < 8; ++y) {
-		for (int x = 0; x < 8; ++x) {
-			if (logo_squares & (1 << x)) {
-				draw_square(x,y,stage);
+	/* "LinAIx" spelled out in a 33x7 pixel-block grid */
+	/* L=5, sp=1, i=3, sp=1, n=5, sp=1, A=5, sp=1, I=5, sp=1, x=5 = 33 wide, 7 tall */
+	static const uint64_t logo_rows[7] = {
+		0x10C41F11FUL,  /* row 0: L     i   n n  AAAAA IIIII x   x */
+		0x000400011UL,  /* row 1: L             A   A   I     x x  */
+		0x104C1D111UL,  /* row 2: L     i  nn  A   A   I      x   */
+		0x10451F11FUL,  /* row 3: L     i  n n AAAAA IIIII   x x  */
+		0x104510111UL,  /* row 4: L     i  n n A   A   I    x   x */
+		0x104510111UL,  /* row 5: L     i  n n A   A   I           */
+		0x1F8710111UL,  /* row 6: LLLLL i  n n A   A IIIII         */
+	};
+
+	/* Recompute - let me define each character properly. */
+	/* Using 5-pixel wide chars with 1-pixel gaps: */
+	/*
+	 * Columns (0-32):
+	 * L: cols 0-4, i: cols 6-8, n: cols 10-14, A: cols 16-20, I: cols 22-26, x: cols 28-32
+	 *
+	 * Row patterns (bit 0 = col 0, bit 32 = col 32):
+	 */
+
+	/* L     .i. ..n.. .A... ..I.. .x...
+	 * 0     .6. .1014 16.20 22.26 28.32
+	 *
+	 * Row 0:  L....  .i.  nn.n. .AAA. IIIII x...x
+	 * Row 1:  L....  ...  n..nn A...A ..I.. .x.x.
+	 * Row 2:  L....  .i.  n..nn A...A ..I.. ..x..
+	 * Row 3:  L....  .i.  n..nn AAAAA ..I.. .x.x.
+	 * Row 4:  L....  .i.  n..nn A...A ..I.. x...x
+	 * Row 5:  L....  .i.  n..nn A...A ..I.. .....
+	 * Row 6:  LLLLL  .i.  n..nn A...A IIIII .....
+	 */
+
+	/* Actually, let me just use a simple bitmap array approach */
+	/* Each row is a 33-bit value stored in uint64_t */
+	/* Bit layout left-to-right: bit0=leftmost column */
+
+	/*  Col:  0123456789012345678901234567890123  */
+	/*        L    _i _n   n_A   A_ I   _x   x  */
+	/* Pos:   0    5 7 9   13 15  19 21  25 27 31 */
+
+	/* Let me just do it character by character */
+
+	/* Character bitmaps, 5 cols each (bit 0..4 = cols left to right) */
+	static const unsigned char ch_L[7] = {0x01,0x01,0x01,0x01,0x01,0x01,0x1F};
+	static const unsigned char ch_i[7] = {0x04,0x00,0x04,0x04,0x04,0x04,0x04};
+	static const unsigned char ch_n[7] = {0x00,0x00,0x0F,0x11,0x11,0x11,0x11};
+	static const unsigned char ch_A[7] = {0x0E,0x11,0x11,0x1F,0x11,0x11,0x11};
+	static const unsigned char ch_I[7] = {0x1F,0x04,0x04,0x04,0x04,0x04,0x1F};
+	static const unsigned char ch_x[7] = {0x00,0x00,0x11,0x0A,0x04,0x0A,0x11};
+
+	static const unsigned char * chars[6] = {ch_L, ch_i, ch_n, ch_A, ch_I, ch_x};
+	static const int char_widths[6] = {5, 3, 5, 5, 5, 5};
+	/* x offsets: L@0, i@6, n@10, A@16, I@22, x@28 */
+	static const int char_offsets[6] = {0, 6, 10, 16, 22, 28};
+
+	for (int y = 0; y < 7; ++y) {
+		for (int ci = 0; ci < 6; ++ci) {
+			unsigned char row = chars[ci][y];
+			for (int bx = 0; bx < char_widths[ci]; ++bx) {
+				if (row & (1 << bx)) {
+					draw_square(char_offsets[ci] + bx, y, stage);
+				}
 			}
 		}
-		logo_squares >>= 8;
 	}
 }

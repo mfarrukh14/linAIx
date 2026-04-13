@@ -1,10 +1,10 @@
 #!/bin/bash
 
-MAJOR=$(grep __kernel_version_major kernel/sys/version.c | sed s'/.*= \(.*\);/\1/')
-MINOR=$(grep __kernel_version_minor kernel/sys/version.c | sed s'/.*= \(.*\);/\1/')
-LOWER=$(grep __kernel_version_lower kernel/sys/version.c | sed s'/.*= \(.*\);/\1/')
+MAJOR=$(grep __kernel_version_major kernel/sys/version.c | sed 's/.*= \(.*\);/\1/')
+MINOR=$(grep __kernel_version_minor kernel/sys/version.c | sed 's/.*= \(.*\);/\1/')
+LOWER=$(grep __kernel_version_lower kernel/sys/version.c | sed 's/.*= \(.*\);/\1/')
 
-cat << EOF
+cat <<EOF
 PRETTY_NAME="linAIxOS ${MAJOR}.${MINOR}"
 NAME="linAIxOS"
 VERSION_ID="${MAJOR}.${MINOR}.${LOWER}"

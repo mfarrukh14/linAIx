@@ -36,7 +36,7 @@
 #include <linAIx/graphics.h>
 #include <linAIx/termemu.h>
 
-#include "linAIx_logo.h"
+#include "toaru_logo.h"
 
 #define NUM_DATA_LINES 30
 
